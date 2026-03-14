@@ -3,11 +3,13 @@ package com.example;
 import com.example.springin5steps.basic.BinarySearchImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 
-@SpringBootApplication
+@Configuration
+@ComponentScan("com.example.springin5steps")
 public class SpringBasicsApplication {
 
 	private static final Logger log = LoggerFactory.getLogger(SpringBasicsApplication.class);
@@ -24,8 +26,17 @@ public class SpringBasicsApplication {
 			System.out.println(binarySearch2.binarySearch(new int[] { 12, 4, 6 }, 3));
 		*/
 
-		ConfigurableApplicationContext applicationContext =
-				SpringApplication.run(SpringBasicsApplication.class, args);
+
+		/*
+			This one does not work because we are removing the spring boot starter.
+
+		 	ConfigurableApplicationContext applicationContext =
+		 		SpringApplication.run(SpringBasicsApplication.class, args);
+		 */
+
+		ApplicationContext applicationContext =
+				new AnnotationConfigApplicationContext(SpringBasicsApplication.class);
+
 
 		BinarySearchImpl binarySearchBean = applicationContext.getBean(BinarySearchImpl.class);
 

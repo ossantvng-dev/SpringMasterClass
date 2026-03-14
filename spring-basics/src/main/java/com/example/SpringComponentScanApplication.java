@@ -3,12 +3,12 @@ package com.example;
 import com.example.componentscan.ComponentPersonDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 
-@SpringBootApplication
+@Configuration
 @ComponentScan("com.example.componentscan")
 public class SpringComponentScanApplication {
 
@@ -16,8 +16,11 @@ public class SpringComponentScanApplication {
 
 	public static void main(String[] args) {
 
-		ConfigurableApplicationContext applicationContext =
-				SpringApplication.run(SpringComponentScanApplication.class, args);
+		/*ConfigurableApplicationContext applicationContext =
+				SpringApplication.run(SpringComponentScanApplication.class, args);*/
+
+		ApplicationContext applicationContext =
+				new AnnotationConfigApplicationContext(SpringComponentScanApplication.class);
 
 		ComponentPersonDAO componentPersonDAO = applicationContext.getBean(ComponentPersonDAO.class);
 		ComponentPersonDAO componentPersonDAO2 = applicationContext.getBean(ComponentPersonDAO.class);
