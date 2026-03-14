@@ -3,7 +3,6 @@ package com.example;
 import com.example.springin5steps.basic.BinarySearchImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -34,23 +33,19 @@ public class SpringBasicsApplication {
 		 		SpringApplication.run(SpringBasicsApplication.class, args);
 		 */
 
-		ApplicationContext applicationContext =
-				new AnnotationConfigApplicationContext(SpringBasicsApplication.class);
+		try (var applicationContext = new AnnotationConfigApplicationContext(SpringScopeApplication.class)) {
+			var binarySearchBean = applicationContext.getBean(BinarySearchImpl.class);
+			var binarySearchBean2 = applicationContext.getBean(BinarySearchImpl.class);
 
+			// Check bean scope
+			log.info("Same bean instance? {}", binarySearchBean == binarySearchBean2);
 
-		BinarySearchImpl binarySearchBean = applicationContext.getBean(BinarySearchImpl.class);
+			log.info(binarySearchBean.toString());
+			log.info(binarySearchBean2.toString());
 
-		BinarySearchImpl binarySearchBean2 = applicationContext.getBean(BinarySearchImpl.class);
-
-		// Check bean scope
-		log.info("Same bean instance? {}", binarySearchBean == binarySearchBean2);
-
-		log.info(binarySearchBean.toString());
-		log.info(binarySearchBean2.toString());
-
-		int result = binarySearchBean.binarySearch(new int[] { 12, 4, 6 }, 3);
-		log.info("Binary search result: {}", result);
-
+			int result = binarySearchBean.binarySearch(new int[] { 12, 4, 6 }, 3);
+			log.info("Binary search result: {}", result);
+		}
 	}
 
 }

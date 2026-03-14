@@ -19,12 +19,14 @@ public class SpringCDIApplication {
 		/*ConfigurableApplicationContext applicationContext =
 				SpringApplication.run(SpringCDIApplication.class, args);*/
 
-		ApplicationContext applicationContext =
+		AnnotationConfigApplicationContext applicationContext =
 				new AnnotationConfigApplicationContext(SpringCDIApplication.class);
 
 		SomeCdiBusiness someCdiBusiness = applicationContext.getBean(SomeCdiBusiness.class);
 
 		log.info("{} dao {}", someCdiBusiness, someCdiBusiness.getSomeCdiDAO());
+
+		applicationContext.close();
 	}
 
 }

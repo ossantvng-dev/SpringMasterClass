@@ -19,7 +19,7 @@ public class SpringComponentScanApplication {
 		/*ConfigurableApplicationContext applicationContext =
 				SpringApplication.run(SpringComponentScanApplication.class, args);*/
 
-		ApplicationContext applicationContext =
+		AnnotationConfigApplicationContext applicationContext =
 				new AnnotationConfigApplicationContext(SpringComponentScanApplication.class);
 
 		ComponentPersonDAO componentPersonDAO = applicationContext.getBean(ComponentPersonDAO.class);
@@ -30,6 +30,8 @@ public class SpringComponentScanApplication {
 
 		log.info("{}", componentPersonDAO2);
 		log.info("{}", componentPersonDAO2.getJdbcConnection());
+
+		applicationContext.close();
 
 	}
 

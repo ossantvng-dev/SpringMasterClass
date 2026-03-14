@@ -20,7 +20,7 @@ public class SpringScopeApplication {
 		/*ConfigurableApplicationContext applicationContext =
 				SpringApplication.run(SpringScopeApplication.class, args);*/
 
-		ApplicationContext applicationContext =
+		AnnotationConfigApplicationContext applicationContext =
 				new AnnotationConfigApplicationContext(SpringScopeApplication.class);
 
 		PersonDAO personDAO = applicationContext.getBean(PersonDAO.class);
@@ -47,6 +47,8 @@ public class SpringScopeApplication {
 
 		log.info("{}", personDAO2);
 		log.info("{}", personDAO2.getJdbcConnection());
+
+		applicationContext.close();
 
 	}
 
