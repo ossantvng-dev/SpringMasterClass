@@ -2,6 +2,7 @@ package com.database;
 
 import com.database.dto.PersonDto;
 import com.database.service.jdbc.PersonJdbcService;
+import com.database.service.jpa.PersonJpaService;
 import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,8 +19,11 @@ public class DatabaseDemoApplication implements CommandLineRunner {
 
 	private final PersonJdbcService personJdbcService;
 
-	public DatabaseDemoApplication(PersonJdbcService personJdbcService) {
+	private final PersonJpaService personJpaService;
+
+	public DatabaseDemoApplication(PersonJdbcService personJdbcService, PersonJpaService personJpaService) {
 		this.personJdbcService = personJdbcService;
+		this.personJpaService = personJpaService;
 	}
 
 	static void main(String[] args) {
@@ -33,6 +37,13 @@ public class DatabaseDemoApplication implements CommandLineRunner {
 		logger.info("Running JDBC insert -> {}", personJdbcService.insert(new PersonDto(10004, "Jason", "San Jose", LocalDateTime.now())));
 		logger.info("Running JDBC update -> {}", personJdbcService.update(new PersonDto(10004, "Jason", "Montreal", LocalDateTime.now())));
 		logger.info("Running JDBC deleteById -> {}", personJdbcService.deleteById(10001));
+
+		logger.info("Running JPA findAll() -> {}", personJpaService.findAll());
+		logger.info("Running JPA findById for id 10002-> {}", personJpaService.findById(10002));
+		logger.info("Running JPA save -> {}", personJpaService.saveOrUpdate(new PersonDto("Jason", "San Jose", LocalDateTime.now())));
+		logger.info("Running JPA update -> {}", personJpaService.saveOrUpdate(new PersonDto(10002, "Jason", "Ontario", LocalDateTime.now())));
+		logger.info("Running JPA deleteById -> {}", personJpaService.deleteById(10001));
+
 	}
 
 }

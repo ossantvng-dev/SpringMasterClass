@@ -21,6 +21,12 @@ public class PersonDto {
         this.birthDate = birthDate;
     }
 
+    public PersonDto(String name, String location, LocalDateTime birthDate) {
+        this.name = name;
+        this.location = location;
+        this.birthDate = birthDate;
+    }
+
     public Integer getId() {
         return id;
     }

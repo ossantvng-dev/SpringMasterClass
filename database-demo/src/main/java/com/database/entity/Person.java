@@ -1,9 +1,6 @@
 package com.database.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
@@ -12,6 +9,7 @@ import java.time.LocalDateTime;
 public class Person {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(nullable = false)
@@ -26,6 +24,12 @@ public class Person {
 
     public Person(Integer id, String name, String location, LocalDateTime birthDate) {
         this.id = id;
+        this.name = name;
+        this.location = location;
+        this.birthDate = birthDate;
+    }
+
+    public Person(String name, String location, LocalDateTime birthDate) {
         this.name = name;
         this.location = location;
         this.birthDate = birthDate;
