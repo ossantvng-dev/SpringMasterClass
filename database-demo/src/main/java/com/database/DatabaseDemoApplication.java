@@ -3,6 +3,7 @@ package com.database;
 import com.database.dto.PersonDto;
 import com.database.service.jdbc.PersonJdbcService;
 import com.database.service.jpa.PersonJpaService;
+import com.database.service.jpa.PersonJpaServiceV2;
 import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,9 +22,14 @@ public class DatabaseDemoApplication implements CommandLineRunner {
 
 	private final PersonJpaService personJpaService;
 
-	public DatabaseDemoApplication(PersonJdbcService personJdbcService, PersonJpaService personJpaService) {
+	private final PersonJpaServiceV2 personJpaServiceV2;
+
+	public DatabaseDemoApplication(PersonJdbcService personJdbcService,
+								   PersonJpaService personJpaService,
+								   PersonJpaServiceV2 personJpaServiceV2) {
 		this.personJdbcService = personJdbcService;
 		this.personJpaService = personJpaService;
+		this.personJpaServiceV2 = personJpaServiceV2;
 	}
 
 	static void main(String[] args) {
@@ -44,6 +50,11 @@ public class DatabaseDemoApplication implements CommandLineRunner {
 		logger.info("Running JPA update -> {}", personJpaService.saveOrUpdate(new PersonDto(10002, "Jason", "Ontario", LocalDateTime.now())));
 		logger.info("Running JPA deleteById -> {}", personJpaService.deleteById(10001));
 
+		logger.info("Running Spring Data JPA findAll() -> {}", personJpaServiceV2.findAll());
+		logger.info("Running Spring Data JPA findById for id 10002-> {}", personJpaServiceV2.findById(10002));
+		logger.info("Running Spring Data JPA save -> {}", personJpaServiceV2.saveOrUpdate(new PersonDto("Jason", "San Jose", LocalDateTime.now())));
+		logger.info("Running Spring Data JPA update -> {}", personJpaServiceV2.saveOrUpdate(new PersonDto(10002, "Jason", "Ontario", LocalDateTime.now())));
+		logger.info("Running Spring Data JPA deleteById -> {}", personJpaServiceV2.deleteById(10001));
 	}
 
 }
