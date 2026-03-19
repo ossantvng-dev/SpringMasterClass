@@ -1,44 +1,38 @@
 package com.database;
 
-import com.database.entity.Person;
-import com.database.mapper.PersonMapper;
-import com.database.repository.jdbc.PersonJdbcDao;
+import com.database.dto.PersonDto;
+import com.database.service.jdbc.PersonJdbcService;
 import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.util.Comparator;
+import java.time.LocalDateTime;
 
 @SpringBootApplication
 public class DatabaseDemoApplication implements CommandLineRunner {
 
 	private static final Logger logger = LoggerFactory.getLogger(DatabaseDemoApplication.class);
 
-	@Autowired
-	private PersonJdbcDao personJdbcDao;
+	private final PersonJdbcService personJdbcService;
 
-	@Autowired
-	private PersonMapper personMapper;
+	public DatabaseDemoApplication(PersonJdbcService personJdbcService) {
+		this.personJdbcService = personJdbcService;
+	}
 
-	public static void main(String[] args) {
+	static void main(String[] args) {
 		SpringApplication.run(DatabaseDemoApplication.class, args);
 	}
 
 	@Override
-	public void run(String @NonNull ... args) throws Exception {
-		logger.info("Running JDBC findAll()");
-		personJdbcDao.findAll().stream()
-				.map(personMapper::toDto)
-				.forEach(dto -> logger.info("Person: {}", dto));
-
-		logger.info("Running JDBC findAllV2() sorted by location descending");
-		personJdbcDao.findAllV2().stream()
-				.sorted(Comparator.comparing(Person::getLocation).reversed())
-				.map(personMapper::toDto)
-				.forEach(dto -> logger.info("Person: {}", dto));
+	public void run(String @NonNull ... args) {
+		logger.info("Running JDBC findAll() -> {}", personJdbcService.findAll());
+		logger.info("Running JDBC findById for id 10002-> {}", personJdbcService.findById(10002));
+		logger.info("Running JDBC insert -> {}", personJdbcService.insert(new PersonDto(10004, "Jason", "San Jose", LocalDateTime.now())));
+		logger.info("Running JDBC update -> {}", personJdbcService.update(new PersonDto(10004, "Jason", "Montreal", LocalDateTime.now())));
+		logger.info("Running JDBC deleteById -> {}", personJdbcService.deleteById(10001));
 	}
+
 }

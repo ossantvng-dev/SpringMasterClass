@@ -1,5 +1,7 @@
 package com.database.dto;
 
+import java.time.LocalDateTime;
+
 public class PersonDto {
 
     private Integer id;
@@ -8,7 +10,16 @@ public class PersonDto {
 
     private String location;
 
-    private String birthDate;
+    private LocalDateTime birthDate;
+
+    public PersonDto() {
+    }
+    public PersonDto(Integer id, String name, String location, LocalDateTime birthDate) {
+        this.id = id;
+        this.name = name;
+        this.location = location;
+        this.birthDate = birthDate;
+    }
 
     public Integer getId() {
         return id;
@@ -34,11 +45,11 @@ public class PersonDto {
         this.location = location;
     }
 
-    public String getBirthDate() {
+    public LocalDateTime getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(String birthDate) {
+    public void setBirthDate(LocalDateTime birthDate) {
         this.birthDate = birthDate;
     }
 
